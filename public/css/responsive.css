@@ -1,0 +1,71 @@
+
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {}
+
+/* Large devices (laptops/desktops, 992px and Down) */
+@media only screen and (max-width: 1024px) {   
+    
+} 
+@media only screen and (max-width: 992px) {  
+    .contactSec {
+        background: url(../img/banner/contact.png) no-repeat;
+        min-height: 100%;
+        padding: 50px 0;
+        background-size: cover !important;
+        color: #fff;
+    }  
+    .footer {
+        background: url(../img/banner/footer.png) no-repeat;
+        background-size: cover !important;
+    }
+    
+}
+
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  
+}
+
+/* Large devices (laptops/desktops, 992px and down) */
+@media only screen and (max-width: 992px) {
+    .carousel-indicators{
+        display: none;
+    }
+
+    .w-sm-100{
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 1100px) {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (max-width: 1200px) {
+    .mt-150{
+        margin-top: 50px !important;
+    }
+
+    .footer{
+        margin-bottom: 90px;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1400px and up) */
+@media only screen and (max-width: 1400px) {
+
+}
