@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ImageSelector from "../../components/ImageSelector";
 import { updateProfile, updatePassword } from "../../redux/action/profile";
+import { getAllServices } from "../../redux/action/service";
 import Toasty from "../../util/toast";
 import { Link } from "react-router-dom";
 const Profile = () => {

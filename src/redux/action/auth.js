@@ -16,6 +16,7 @@ import {
 } from "../action/actionTypes";
 import { setAuthToken } from "../../util/setAuthToken";
 import customModal from "../../components/modals/customModal";
+
 //loading user
 export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
@@ -34,6 +35,7 @@ export const loadUser = () => async (dispatch) => {
     });
   }
 };
+
 //login user
 export const login = (email, password, history) => async (dispatch) => {
   const body = { email, password };
