@@ -199,7 +199,6 @@ const Header = ({ history }) => {
             <a href="#">Membership</a>
             <a href="#">Blogs</a>
           </div>
-
           <div>
             <div
               className="modal fade"
@@ -816,11 +815,21 @@ const Header = ({ history }) => {
                               Home
                             </Link>
                           </li>
+
                           <li className="nav-item h-50p">
-                            <Link
-                              className="nav-link"
-                              to="/productsandpackages"
-                            >
+                            <Link className="nav-link" to="/services">
+                              Services
+                            </Link>
+                          </li>
+
+                          <li class="nav-item h-50p">
+                            <Link class="nav-link" to="/courses">
+                              Courses
+                            </Link>
+                          </li>
+
+                          <li className="nav-item h-50p">
+                            <Link className="nav-link" to="/products">
                               Products &amp; Packages
                             </Link>
                           </li>

@@ -2,9 +2,8 @@ import {
   CART_ADD_ITEM,
   CART_REMOVE_ITEM,
   CART_CLEAR_ITEMS,
-} from "../action/cart";
-
-export const cartReducer = (
+} from "../action/actionTypes";
+const cartReducer = (
   state = {
     cartItems: [],
     cartnumber: 0,
@@ -41,8 +40,9 @@ export const cartReducer = (
         ...state,
         cartItems: [],
       };
-
     default:
       return state;
   }
 };
+
+export default cartReducer;

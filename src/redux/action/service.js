@@ -42,6 +42,7 @@ export const getServiceDetails = (id) => async (dispatch) => {
 
 export const makeServiceRequest = (formData, history) => async (dispatch) => {
   try {
+    const { service } = formData;
     const res = await api.post(
       `/serviceRequest/createServiceRequest`,
       formData
@@ -51,6 +52,8 @@ export const makeServiceRequest = (formData, history) => async (dispatch) => {
       type: SERVICE_REQUEST,
       payload: res.data,
     });
+    history.push(`/service-payment/${service}`);
+    customModal(res?.data?.msg);
   } catch (err) {
     dispatch({
       type: SERVICE_REQUEST_ERROR,
