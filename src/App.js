@@ -18,6 +18,9 @@ import CourseDetail from "./screens/courses/CourseDetail";
 import Products from "./screens/product/Products";
 import ProductDetails from "./screens/product/ProductDetails";
 import MyCart from "./screens/product/MyCart";
+import Checkout from "./screens/checkout/Checkout";
+import StartQuiz from "./screens/quiz/StartQuiz";
+import Quiz from "./screens/quiz/Quiz";
 import { Provider } from "react-redux";
 import store from "./redux/store/store";
 import { setAuthToken } from "./util/setAuthToken";
@@ -35,6 +38,7 @@ function App() {
         <Header />
         <Route path="/" component={Home} exact />
         <PrivateRoute path="/MyCart/:id?" component={MyCart} exact />
+        <PrivateRoute path="/Checkout" component={Checkout} exact />
         <PrivateRoute path="/products" component={Products} />
         <PrivateRoute path="/product-details/:id" component={ProductDetails} />
         <PrivateRoute path="/profile" component={Profile} exact />
@@ -66,6 +70,8 @@ function App() {
           component={CourseDetail}
           exact
         />
+        <PrivateRoute path="/start-quiz" component={StartQuiz} exact />
+        <PrivateRoute path="/quiz" component={Quiz} exact />
         <Route path="/membership" component={MemberShip} />
         <Route path="/productsandpackages" component={ProductAndPackages} />
         <Footer />

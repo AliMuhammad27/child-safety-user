@@ -37,6 +37,9 @@ const Header = ({ history }) => {
   };
   console.log("assasas", isAuthenticated);
   console.log("userInfo", userInfo);
+  const cart = useSelector((state) => state?.cart);
+  const { cartItems } = cart;
+  console.log("cartItems", cartItems);
   return (
     <div>
       {!isAuthenticated ? (
@@ -1092,23 +1095,30 @@ const Header = ({ history }) => {
                                 aria-labelledby="navbarDropdownMenuLink"
                               >
                                 <li>
-                                  <a className="dropdown-item" href="#">
-                                    <div className="d-flex">
-                                      <div className="flex-shrink-0">
-                                        <img
-                                          src="img/assets/cardThumb.png"
-                                          alt=""
-                                          className="img-fluid"
-                                        />
-                                      </div>
-                                      <div className="ms-2 flex-grow-1">
-                                        <p>Product 01</p>
-                                      </div>
-                                      <div className="flex-shrink-0">
-                                        <p className="fc-lblue"> Qty:1</p>
-                                      </div>
-                                    </div>
-                                  </a>
+                                  <Link className="dropdown-item" to="/MyCart">
+                                    {cartItems.length > 0
+                                      ? cartItems.map((item, index) => (
+                                          <div className="d-flex">
+                                            <div className="flex-shrink-0">
+                                              {/* <img
+                                              src={`${imageUrl}${item?.image[0]}`}
+                                              alt=""
+                                              className="img-fluid"
+                                            /> */}
+                                            </div>
+                                            <div className="ms-2 flex-grow-1">
+                                              <p>Product {item?.name}</p>
+                                            </div>
+                                            <div className="flex-shrink-0">
+                                              <p className="fc-lblue">
+                                                {" "}
+                                                Qty:{item?.qty}
+                                              </p>
+                                            </div>
+                                          </div>
+                                        ))
+                                      : "No items in Cart"}
+                                  </Link>
                                 </li>
                               </ul>
                             </li>

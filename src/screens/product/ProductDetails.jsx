@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { baseURL, imageUrl } from "../../util/api";
+import Toasty from "../../util/toast";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ImageSlider from "../../components/ImageSlider";
 const ProductDetails = ({ match, history }) => {
   const [productdetails, setproductdetails] = useState(null);
+  const [quantity, setquantity] = useState(1);
   const [images, setimages] = useState("");
   const userToken = useSelector((state) => state?.auth?.token);
   const handleProductDetails = async () => {
@@ -23,9 +25,14 @@ const ProductDetails = ({ match, history }) => {
       console.log("Error", err);
     }
   };
+  const subQuantity = async () => {
+    quantity == 0 || quantity <= 0
+      ? setquantity(0)
+      : setquantity(Number(quantity - 1));
+  };
 
-  const addToCartHandler = async (productId, qty) => {
-    history.push(`/MyCart/${productId}?qty=${qty}`);
+  const addToCartHandler = async (productId, quantity) => {
+    history.push(`/MyCart/${productId}?qty=${quantity}`);
   };
 
   useEffect(() => {
@@ -71,11 +78,44 @@ const ProductDetails = ({ match, history }) => {
                   <div className="checkmark">L</div>
                 </label>
               </div>
-              <div className="col-lg-12 mt-4">
-                <p className="fw-600">In Stock</p>
-                <div className="col-lg-9 my-3">
-                  <h2>{productdetails?.instock}</h2>
-                </div>
+              <div class="col-lg-12 mt-4">
+                <p class="fw-600">Quantity</p>
+                <form>
+                  <button
+                    class="value-button"
+                    id="decrease"
+                    value={quantity}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      subQuantity();
+                    }}
+                    value="Decrease Value"
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    id="number"
+                    min={0}
+                    value={quantity}
+                    onChange={(e) => {
+                      setquantity(Number(e.target.value));
+                    }}
+                    max={productdetails?.instock}
+                  />
+                  <button
+                    class="value-button"
+                    id="increase"
+                    value={quantity}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setquantity(Number(quantity + 1));
+                    }}
+                    value="Increase Value"
+                  >
+                    +
+                  </button>
+                </form>
               </div>
               <div className="col-lg-12 mt-4">
                 <ul
@@ -135,7 +175,9 @@ const ProductDetails = ({ match, history }) => {
                 <Link
                   className="btn btn-primary my-2 w-sm-100"
                   onClick={(e) => {
-                    addToCartHandler(productdetails?._id, 1);
+                    quantity > 0
+                      ? addToCartHandler(productdetails?._id, quantity)
+                      : Toasty("Error", "Quantity must be greater than 0");
                   }}
                 >
                   Add To Cart
