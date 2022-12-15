@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const StartQuiz = () => {
   const start = new Date().toISOString();
   const tomorrow = new Date(start);
-  tomorrow.setDate(tomorrow.getDate() + 14);
+  tomorrow.setDate(tomorrow.getDate());
   const passingMarks = 50;
   const quizresult = 30;
   let retakedate = "";
@@ -13,7 +13,7 @@ const StartQuiz = () => {
   }
   console.log("startData", start);
   console.log("RetakeDate", moment(retakedate).format("ll"));
-  console.log("remainingDays", retakedate.diff(tomorrow, "days"));
+  console.log("remainingDays", retakedate.diff(start, "days"));
   return (
     <div>
       <section className="innerMain4">

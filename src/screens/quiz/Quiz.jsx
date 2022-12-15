@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import { baseURL } from "../../util/api";
+import api, { baseURL } from "../../util/api";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import Toasty from "../../util/toast";
 const Quiz = () => {
   let correckmarks = 0;
   const userToken = useSelector((state) => state?.auth?.token);
@@ -14,9 +16,10 @@ const Quiz = () => {
   const [quizes, setquizes] = useState([]);
   const [loading, setloading] = useState(false);
   const [qnumber, setqumber] = useState(1);
-
   const [step, setStep] = useState(1);
   const [values, setValues] = useState({});
+  const [inputfields, setInputfields] = useState([]);
+  const [index, setIndex] = useState(0);
   console.log("Values", values);
   const handleAllQuizes = async () => {
     try {
@@ -39,9 +42,48 @@ const Quiz = () => {
     handleAllQuizes();
   }, []);
 
-  console.log("Quizes", quizes?.docs?.[0]?.quizinfo.length);
+  console.log("Quizes", quizes?.docs?.[0]?.quizinfo[index]);
   console.log("qnNumber", qnumber);
 
+  const handlechangeinput = (index, event) => {
+    console.log("event.target.value", index, event.target.value);
+    const values = [...inputfields];
+    values[index] = event.target.value;
+    setInputfields(values);
+  };
+  const submitQuizHandler = async () => {
+    quizes?.docs?.[0]?.quizinfo.length > 0 &&
+      quizes?.docs?.[0]?.quizinfo.map((quiz, index) => {
+        console.log("Quiz", quiz, inputfields[index]);
+        if (quiz.correctanswer == inputfields[index]) {
+          correckmarks = correckmarks + quiz.quizmarks;
+          console.log("correctmarks", correckmarks);
+        }
+      });
+    if (correckmarks >= quizes?.docs?.[0]?.passingmarks) {
+      Swal.fire({
+        icon: "success",
+        title: "",
+        text: `You have successfully cleared the quiz. You scored ${correckmarks} out of ${quizes?.docs?.[0]?.totalmarks}`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      setInputfields([]);
+    } else {
+      await Swal.fire({
+        icon: "error",
+        title: "",
+        text: `You did not clear the quiz. You scored ${correckmarks} out of ${quizes?.docs?.[0]?.totalmarks}. Sorry! Please retake quiz`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
+    setInputfields([]);
+  };
+
+  useEffect(() => {
+    console.log("inputfields", inputfields);
+  }, [inputfields]);
   return (
     <div>
       <section className="py-5 mt-150 bg-blueGradient">
@@ -69,7 +111,20 @@ const Quiz = () => {
                                 <div className="col-lg-6 my-2">
                                   <label className="containerRadio">
                                     Two
-                                    <input type="radio" name="radio" />
+                                    <input
+                                      type="radio"
+                                      name="radio"
+                                      value={1}
+                                      checked={
+                                        inputfields[step - 1] == 1
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(event) => {
+                                        handlechangeinput(step - 1, event, 1);
+                                        console.log("Step", step);
+                                      }}
+                                    />
                                     <div className="checkmark">
                                       <div className="d-flex">
                                         <div className="flex-shrink-0">
@@ -85,7 +140,20 @@ const Quiz = () => {
                                 <div className="col-lg-6 my-2">
                                   <label className="containerRadio">
                                     Two
-                                    <input type="radio" name="radio" />
+                                    <input
+                                      type="radio"
+                                      name="radio"
+                                      value={2}
+                                      checked={
+                                        inputfields[step - 1] == 2
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(event) => {
+                                        handlechangeinput(step - 1, event, 1);
+                                        console.log("Step", step);
+                                      }}
+                                    />
                                     <div className="checkmark">
                                       <div className="d-flex">
                                         <div className="flex-shrink-0">
@@ -101,7 +169,20 @@ const Quiz = () => {
                                 <div className="col-lg-6 my-2">
                                   <label className="containerRadio">
                                     Two
-                                    <input type="radio" name="radio" />
+                                    <input
+                                      type="radio"
+                                      name="radio"
+                                      value={3}
+                                      checked={
+                                        inputfields[step - 1] == 3
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(event) => {
+                                        handlechangeinput(step - 1, event, 1);
+                                        console.log("Step", step);
+                                      }}
+                                    />
                                     <div className="checkmark">
                                       <div className="d-flex">
                                         <div className="flex-shrink-0">
@@ -117,7 +198,20 @@ const Quiz = () => {
                                 <div className="col-lg-6 my-2">
                                   <label className="containerRadio">
                                     Two
-                                    <input type="radio" name="radio" />
+                                    <input
+                                      type="radio"
+                                      name="radio"
+                                      value={4}
+                                      checked={
+                                        inputfields[step - 1] == 4
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(event) => {
+                                        handlechangeinput(step - 1, event, 1);
+                                        console.log("Step", step);
+                                      }}
+                                    />
                                     <div className="checkmark">
                                       <div className="d-flex">
                                         <div className="flex-shrink-0">
@@ -151,7 +245,9 @@ const Quiz = () => {
                 <button
                   to="#"
                   className="btn btn-primary"
-                  onClick={(e) => setStep(qnumber + 1)}
+                  onClick={(e) => {
+                    setStep(step + 1);
+                  }}
                   disabled={
                     step == quizes?.docs?.[0]?.quizinfo.length ? "disabled" : ""
                   }
@@ -159,6 +255,43 @@ const Quiz = () => {
                   // data-bs-target="#retakeQuiz"
                 >
                   Next <i className="fas fa-chevron-right" />
+                </button>
+              </div>
+              <div className="col-lg-6 text-end my-2">
+                <button
+                  to="#"
+                  className="btn btn-primary"
+                  onClick={(e) => {
+                    inputfields?.length === quizes?.docs?.[0]?.quizinfo?.length
+                      ? submitQuizHandler()
+                      : Toasty("error", `Please answer all questions`);
+                  }}
+                  // disabled={
+                  //   step == quizes?.docs?.[0]?.quizinfo.length ? "disabled" : ""
+                  // }
+                  // data-bs-toggle="modal"
+                  // data-bs-target="#retakeQuiz"
+                >
+                  Submit <i className="" />
+                </button>
+              </div>
+
+              <div className="col-lg-6 text-end my-2">
+                <button
+                  to="#"
+                  className="btn btn-primary"
+                  onClick={(e) => {
+                    inputfields?.length === quizes?.docs?.[0]?.quizinfo?.length
+                      ? submitQuizHandler()
+                      : Toasty("error", `Please answer all questions`);
+                  }}
+                  // disabled={
+                  //   step == quizes?.docs?.[0]?.quizinfo.length ? "disabled" : ""
+                  // }
+                  // data-bs-toggle="modal"
+                  // data-bs-target="#retakeQuiz"
+                >
+                  Retake <i className="" />
                 </button>
               </div>
             </div>
